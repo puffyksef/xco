@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XCO Speed Test</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  body {
+    background-color: #000;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .container {
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+  }
+  /* XCO Logo */
+  .logo {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    margin-bottom: 6px;
+  }
+  .logo .x { color: #00e0a0; }
+  .logo .co { color: #fff; }
+  .tagline {
+    font-size: 11px;
+    color: #555;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  /* Big Number */
+  .speed-display { margin-bottom: 6px; }
+  .speed-number {
+    font-size: clamp(80px, 20vw, 140px);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -3px;
+    color: #fff;
+    transition: color 0.3s ease;
+  }
+  .speed-unit {
+    font-size: 18px;
+    opacity: 0.6;
+    margin-top: 4px;
+    font-weight: 500;
+  }
+
+  /* Status */
+  .status {
+    font-size: 13px;
+    color: #666;
+    margin-top: 18px;
+    min-height: 18px;
+    transition: opacity 0.3s;
+    letter-spacing: 0.3px;
+  }
+
+  /* Details */
+  .more-info {
+    margin-top: 40px;
+    width: 100%;
+    border-top: 1px solid #222;
+    padding-top: 22px;
+    display: none;
+  }
+  .more-info.visible {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    text-align: left;
+  }
+  .info-item { display: flex; flex-direction: column; gap: 4px; }
+  .info-label {
+    font-size: 11px;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+  .info-value {
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .info-value span { font-size: 12px; font-weight: 400; color: #666; margin-left: 2px; }
+
+  /* Buttons */
+  .actions {
+    margin-top: 32px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    background: none;
+    border: 1px solid #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+  }
+  .btn:hover { border-color: #666; }
+  .btn-primary {
+    background: #fff;
+    color: #000;
+    border: none;
+    font-weight: 700;
+  }
+  .btn-primary:hover { background: #ddd; }
+
+  .footer-note {
+    margin-top: 32px;
+    font-size: 10.5px;
+    color: #333;
+    text-align: center;
+    line-height: 1.6;
+    max-width: 380px;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="logo"><span class="x">X</span><span class="co">CO</span></div>
+  <div class="tagline">Speed Test</div>
+
+  <div class="speed-display">
+    <div class="speed-number" id="speedNumber">0</div>
+    <div class="speed-unit" id="speedUnit">Mbps</div>
+  </div>
+
+  <div class="status" id="statusText">Connecting...</div>
+
+  <div class="more-info" id="moreInfo">
+    <div class="info-item">
+      <div class="info-label">Upload</div>
+      <div class="info-value" id="uploadVal">-- <span>Mbps</span></div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Latency (Ping)</div>
+      <div class="info-value" id="pingVal">-- <span>ms</span></div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">Jitter</div>
+      <div class="info-value" id="jitterVal">-- <span>ms</span></div>
+    </div>
+    <div class="info-item">
+      <div class="info-label">IP Address</div>
+      <div class="info-value" id="ipVal" style="font-size:14px; word-break:break-all;">--</div>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn" id="toggleBtn">Show more info</button>
+    <button class="btn btn-primary" id="retestBtn" style="display:none;">Test Again</button>
+  </div>
+
+  <div class="footer-note">
+    XCO Speed Test measures your download, upload, ping and jitter using Cloudflare's public speed endpoints. Results are estimates and may vary with network conditions.
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   XCO SPEED TEST
+   Fast.com-style: auto-start, big download number,
+   expandable details for upload / ping / jitter / IP
+   ============================================================ */
+
+const $ = (id) => document.getElementById(id);
+const speedNumber = $('speedNumber');
+const speedUnit = $('speedUnit');
+const statusText = $('statusText');
+const moreInfo = $('moreInfo');
+const toggleBtn = $('toggleBtn');
+const retestBtn = $('retestBtn');
+const uploadVal = $('uploadVal');
+const pingVal = $('pingVal');
+const jitterVal = $('jitterVal');
+const ipVal = $('ipVal');
+
+let isTesting = false;
+let detailsVisible = false;
+
+/* ---------- Display ---------- */
+function updateSpeedDisplay(value, unit = 'Mbps') {
+  if (value === null || isNaN(value)) {
+    speedNumber.textContent = '--';
+  } else if (value < 0.1) {
+    speedNumber.textContent = '0';
+  } else if (value < 10) {
+    speedNumber.textContent = value.toFixed(1);
+  } else {
+    speedNumber.textContent = Math.round(value);
+  }
+  speedUnit.textContent = unit;
+}
+
+function setStatus(text) { statusText.textContent = text; }
+
+function showDetails(show) {
+  detailsVisible = show;
+  moreInfo.classList.toggle('visible', show);
+  toggleBtn.textContent = show ? 'Show less info' : 'Show more info';
+}
+
+/* ---------- IP ---------- */
+async function fetchIP() {
+  try {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    ipVal.textContent = data.ip;
+  } catch {
+    ipVal.textContent = 'Unavailable';
+  }
+}
+
+/* ---------- Ping & Jitter ---------- */
+async function measurePingAndJitter() {
+  const url = 'https://speed.cloudflare.com/__down?bytes=1000&t=' + Date.now();
+  const samples = [];
+
+  for (let i = 0; i < 8; i++) {
+    const t0 = performance.now();
+    try {
+      await fetch(url + '&r=' + i, { cache: 'no-store' });
+      samples.push(performance.now() - t0);
+    } catch {}
+  }
+
+  if (samples.length < 2) return { ping: null, jitter: null };
+
+  const avg = samples.reduce((a, b) => a + b, 0) / samples.length;
+
+  let diffSum = 0;
+  for (let i = 1; i < samples.length; i++) {
+    diffSum += Math.abs(samples[i] - samples[i - 1]);
+  }
+  const jitter = diffSum / (samples.length - 1);
+
+  return { ping: Math.round(avg), jitter: Math.round(jitter) };
+}
+
+/* ---------- Download ---------- */
+async function measureDownload() {
+  const bytes = 10 * 1024 * 1024;
+  const url = `https://speed.cloudflare.com/__down?bytes=${bytes}&t=${Date.now()}`;
+
+  const t0 = performance.now();
+  let loaded = 0;
+
+  const res = await fetch(url, { cache: 'no-store' });
+  if (!res.ok) throw new Error('Download failed');
+
+  const reader = res.body.getReader();
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    loaded += value.length;
+
+    const elapsed = (performance.now() - t0) / 1000;
+    if (elapsed > 0.5) {
+      const currentMbps = (loaded * 8) / elapsed / 1e6;
+      updateSpeedDisplay(currentMbps, 'Mbps');
+    }
+  }
+
+  const elapsed = (performance.now() - t0) / 1000;
+  return (loaded * 8) / elapsed / 1e6;
+}
+
+/* ---------- Upload ---------- */
+async function measureUpload() {
+  const sizeBytes = 2 * 1024 * 1024;
+  const payload = new Uint8Array(sizeBytes);
+  for (let i = 0; i < sizeBytes; i++) {
+    payload[i] = Math.floor(Math.random() * 256);
+  }
+
+  const url = 'https://speed.cloudflare.com/__up';
+  const t0 = performance.now();
+
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', url, true);
+
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        const elapsed = (performance.now() - t0) / 1000;
+        resolve((sizeBytes * 8) / elapsed / 1e6);
+      } else {
+        reject(new Error('Upload failed'));
+      }
+    };
+
+    xhr.onerror = () => reject(new Error('Upload error'));
+    xhr.send(payload);
+  });
+}
+
+/* ---------- Main Runner ---------- */
+async function runTest() {
+  if (isTesting) return;
+  isTesting = true;
+
+  updateSpeedDisplay(0, 'Mbps');
+  uploadVal.innerHTML = '-- <span>Mbps</span>';
+  pingVal.innerHTML = '-- <span>ms</span>';
+  jitterVal.innerHTML = '-- <span>ms</span>';
+  retestBtn.style.display = 'none';
+  setStatus('Testing download speed...');
+
+  fetchIP();
+
+  try {
+    const downMbps = await measureDownload();
+    updateSpeedDisplay(downMbps, 'Mbps');
+    setStatus('Measuring latency...');
+
+    const { ping, jitter } = await measurePingAndJitter();
+    if (ping !== null) pingVal.innerHTML = `${ping} <span>ms</span>`;
+    if (jitter !== null) jitterVal.innerHTML = `${jitter} <span>ms</span>`;
+
+    setStatus('Testing upload speed...');
+    try {
+      const upMbps = await measureUpload();
+      uploadVal.innerHTML = `${upMbps.toFixed(1)} <span>Mbps</span>`;
+    } catch {
+      uploadVal.innerHTML = 'Error';
+    }
+
+    setStatus('Test complete');
+  } catch (err) {
+    console.error(err);
+    setStatus('Test failed. Check connection.');
+    updateSpeedDisplay(0, 'Mbps');
+  } finally {
+    isTesting = false;
+    retestBtn.style.display = 'inline-block';
+  }
+}
+
+/* ---------- Events ---------- */
+toggleBtn.addEventListener('click', () => showDetails(!detailsVisible));
+retestBtn.addEventListener('click', runTest);
+
+window.addEventListener('load', () => {
+  setTimeout(runTest, 300);
+});
+</script>
+</body>
+</html>
