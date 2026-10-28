@@ -11,12 +11,30 @@
 <meta name="description" content="Test your internet connection instantly with XCO Speed Test. Secure, lightweight, ad-free analyzer for download, upload speed, latency ping, and jitter.">
 <link rel="canonical" href="https://puffyksef.github.io/xco/" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23000'/%3E%3Ctext x='16' y='23' font-size='20' font-weight='800' text-anchor='middle' fill='%2300e0a0' font-family='Arial'%3EX%3C/text%3E%3C/svg%3E">
-<meta name="robots" content="index, follow">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="preconnect" href="https://speed.cloudflare.com" crossorigin>
+<link rel="dns-prefetch" href="https://speed.cloudflare.com">
+<meta name="keywords" content="XCO speed test, internet speed test, download speed, upload speed, ping test, jitter test">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="XCO Speed Test - Lightweight Internet Analysis">
 <meta property="og:description" content="Check your network performance accurately with XCO. Clean, minimal, and fast dashboard powered by Cloudflare network metrics.">
 <meta property="og:url" content="https://puffyksef.github.io/xco/">
+<meta property="og:site_name" content="XCO Speed Test">
+<meta property="og:image" content="https://puffyksef.github.io/xco/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="XCO Speed Test - Lightweight Internet Analysis">
+<meta name="twitter:description" content="Free, ad-free test for download, upload, ping and jitter.">
+<meta name="twitter:image" content="https://puffyksef.github.io/xco/og.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"WebApplication","name":"XCO Speed Test","url":"https://puffyksef.github.io/xco/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","description":"Free, ad-free internet speed test measuring download speed, upload speed, ping and jitter.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+{"@type":"FAQPage","mainEntity":[
+{"@type":"Question","name":"What does XCO Speed Test measure?","acceptedAnswer":{"@type":"Answer","text":"It measures download speed, upload speed, latency (ping) and jitter using Cloudflare's public speed servers."}},
+{"@type":"Question","name":"What is a good ping and jitter?","acceptedAnswer":{"@type":"Answer","text":"Under 30 ms ping and under 5 ms jitter feels great for gaming and video calls. Under 100 ms is fine for general browsing."}},
+{"@type":"Question","name":"Why does my speed differ from my plan?","acceptedAnswer":{"@type":"Answer","text":"Wi-Fi quality, other devices, distance to the test server and network congestion all affect results. For the most accurate result, use a wired connection and pause other downloads."}}
+]}]}
+</script>
 
 <style>
   * { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
@@ -78,6 +96,13 @@
 
   .footer-note { margin:32px auto 0; font-size:12px; color:#8c8c8c; line-height:1.6; max-width:420px; }
 
+  .about { max-width:520px; margin:44px auto 0; text-align:left; border-top:1px solid var(--line); padding-top:24px; color:#a0a0a0; font-size:13px; line-height:1.7; }
+  .about h2 { font-size:15px; color:#fff; margin-bottom:8px; }
+  .about h2 + p { margin-bottom:22px; }
+  .about details { border-top:1px solid var(--line); padding:12px 0; }
+  .about summary { cursor:pointer; color:#ddd; font-weight:600; }
+  .about details p { margin-top:8px; }
+
   @media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
 </style>
 </head>
@@ -104,6 +129,7 @@
   <div class="status" id="statusText" role="status" aria-live="polite">Starting...</div>
 
   <section class="more-info" id="moreInfo" aria-label="Test details">
+    <div class="info-item"><div class="info-label">Download</div><div class="info-value" id="downVal">--</div></div>
     <div class="info-item"><div class="info-label">Upload</div><div class="info-value" id="uploadVal">--</div></div>
     <div class="info-item"><div class="info-label">Latency (ping)</div><div class="info-value" id="pingVal">--</div></div>
     <div class="info-item"><div class="info-label">Jitter</div><div class="info-value" id="jitterVal">--</div></div>
@@ -114,6 +140,7 @@
 
   <div class="actions">
     <button class="btn" id="toggleBtn" aria-expanded="false" aria-controls="moreInfo">Show more info</button>
+    <button class="btn" id="copyBtn" hidden>Copy result</button>
     <button class="btn btn-primary" id="retestBtn" hidden>Test again</button>
   </div>
 
@@ -121,6 +148,17 @@
     XCO Speed Test measures your download, upload, ping and jitter using Cloudflare's public speed servers.
     Results are estimates and vary with network conditions, Wi-Fi quality and other devices on your network.
   </p>
+
+  <noscript><p class="footer-note">XCO Speed Test needs JavaScript enabled to measure your connection.</p></noscript>
+
+  <section class="about">
+    <h2>About XCO Speed Test</h2>
+    <p>XCO is a free, ad-free internet speed test. It checks your download speed, upload speed, latency (ping) and jitter in about 20 seconds, with nothing to install and no sign-up.</p>
+    <h2>FAQ</h2>
+    <details><summary>What does XCO Speed Test measure?</summary><p>Download and upload speed in Mbps, latency (ping) in milliseconds, and jitter, which is how much your latency varies. Tests run against Cloudflare's public speed servers.</p></details>
+    <details><summary>What is a good ping and jitter?</summary><p>Under 30 ms ping and under 5 ms jitter feels great for gaming and video calls. Under 100 ms is fine for general browsing.</p></details>
+    <details><summary>Why does my speed differ from my plan?</summary><p>Wi-Fi quality, other devices, distance to the test server and congestion all affect results. For the most accurate reading, use a wired connection and pause other downloads.</p></details>
+  </section>
 </main>
 
 <script>
@@ -149,13 +187,14 @@ const el = {
   num: $('speedNumber'), unit: $('speedUnit'), status: $('statusText'),
   more: $('moreInfo'),
   toggle: $('toggleBtn'), retest: $('retestBtn'),
-  up: $('uploadVal'), ping: $('pingVal'), jitter: $('jitterVal'),
+  down: $('downVal'), copy: $('copyBtn'), up: $('uploadVal'), ping: $('pingVal'), jitter: $('jitterVal'),
   server: $('serverVal'), ip: $('ipVal'), isp: $('ispVal')
 };
 
 let testing = false;
 let runCtl = null;
 let hiddenAbort = false;
+let last = null;
 
 /* ---------- Helpers ---------- */
 class TestError extends Error {}
@@ -234,9 +273,13 @@ async function measurePing(signal) {
     signal.addEventListener('abort', onAbort, { once: true });
     const t = performance.now();
     try {
-      const r = await fetch(DOWN + '?bytes=0&r=' + rand(), { cache: 'no-store', signal: c.signal });
+      const url = DOWN + '?bytes=0&r=' + rand();
+      const r = await fetch(url, { cache: 'no-store', signal: c.signal });
       await r.arrayBuffer();
-      return performance.now() - t;
+      const wall = performance.now() - t;
+      const e = performance.getEntriesByName(url).pop();
+      performance.clearResourceTimings();
+      return e && e.requestStart > 0 && e.responseStart > e.requestStart ? e.responseStart - e.requestStart : wall;
     } finally { clearTimeout(to); signal.removeEventListener('abort', onAbort); }
   };
   try { await one(); } catch (e) { if (signal.aborted) throw e; throw new TestError('Could not reach the test server.'); }
@@ -256,6 +299,7 @@ async function measurePing(signal) {
 async function transfer(cfg, worker, signal) {
   const stop = new AbortController();
   signal.addEventListener('abort', () => stop.abort(), { once: true });
+  let smooth = 0;
   let bytes = 0, wt = null, wb = 0, endT = 0, endB = 0, failed = null;
   const add = (n) => { bytes += n; };
   const t0 = performance.now(), samples = [];
@@ -271,7 +315,7 @@ async function transfer(cfg, worker, signal) {
       while (samples.length > 1 && now - samples[0][0] > 1000) samples.shift();
       if (wt === null && elapsed >= cfg.warmMs) { wt = now; wb = bytes; }
       const [st, sb] = samples[0];
-      if (now > st) setGauge((bytes - sb) * 8 / (now - st) / 1e3);
+      if (now > st) { const v = (bytes - sb) * 8 / (now - st) / 1e3; smooth = smooth ? smooth * 0.6 + v * 0.4 : v; setGauge(smooth); }
       setProgress(elapsed / cfg.totalMs);
       if (elapsed >= cfg.totalMs) { endT = now; endB = bytes; clearInterval(iv); resolve(); }
     }, 150);
@@ -338,7 +382,8 @@ async function loadMeta(signal) {
 
 /* ---------- Run ---------- */
 function resetUI() {
-  el.up.textContent = el.ping.textContent = el.jitter.textContent = '--';
+  el.copy.hidden = true;
+  el.down.textContent = el.up.textContent = el.ping.textContent = el.jitter.textContent = '--';
   el.server.textContent = el.ip.textContent = el.isp.textContent = '--';
   el.gauge.dataset.phase = 'download';
   el.arc.style.opacity = 0;
@@ -350,6 +395,7 @@ function resetUI() {
 
 async function runTest() {
   if (testing) return;
+  if (!navigator.onLine) { setStatus('You appear to be offline. Reconnect and try again.', true); el.retest.hidden = false; return; }
   testing = true; hiddenAbort = false;
   runCtl = new AbortController();
   const sig = runCtl.signal;
@@ -365,6 +411,7 @@ async function runTest() {
     setStatus('Testing download speed...');
     const down = await transfer(CFG.download, dlWorker, sig);
     setGauge(down);
+    el.down.innerHTML = formatSpeed(down).join('<span>') + '</span>';
     clearProgress();
 
     el.gauge.dataset.phase = 'upload';
@@ -375,6 +422,8 @@ async function runTest() {
 
     el.gauge.dataset.phase = 'download';
     setGauge(down);
+    last = 'XCO Speed Test: Download ' + speedText(down) + ' | Upload ' + speedText(up) + ' | Ping ' + ping.toFixed(0) + ' ms | Jitter ' + jitter.toFixed(1) + ' ms - https://puffyksef.github.io/xco/';
+    el.copy.hidden = false;
     setStatus('Download ' + speedText(down) + '  ·  Upload ' + speedText(up));
   } catch (e) {
     if (hiddenAbort) setStatus('Test stopped because the tab was hidden. Run it again.', true);
@@ -395,6 +444,11 @@ el.toggle.addEventListener('click', () => {
   el.toggle.textContent = open ? 'Hide info' : 'Show more info';
 });
 el.retest.addEventListener('click', runTest);
+el.copy.addEventListener('click', async () => {
+  try { await navigator.clipboard.writeText(last); el.copy.textContent = 'Copied!'; }
+  catch (e) { el.copy.textContent = 'Copy failed'; }
+  setTimeout(() => { el.copy.textContent = 'Copy result'; }, 1500);
+});
 document.addEventListener('visibilitychange', () => {
   if (document.hidden && testing && runCtl) { hiddenAbort = true; runCtl.abort(); }
 });
@@ -403,5 +457,3 @@ runTest();
 </script>
 </body>
 </html>
-
-

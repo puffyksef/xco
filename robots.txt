@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://puffyksef.github.io/xco/sitemap.xml
