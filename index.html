@@ -7,13 +7,12 @@
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#000000">
 
-<!-- Optimized Meta Headers for Search Discovery -->
 <title>XCO Speed Test | Fast, Accurate & Lightweight Internet Test</title>
 <meta name="description" content="Test your internet connection instantly with XCO Speed Test. Secure, lightweight, ad-free analyzer for download, upload speed, latency ping, and jitter.">
 <link rel="canonical" href="https://puffyksef.github.io/xco/" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23000'/%3E%3Ctext x='16' y='23' font-size='20' font-weight='800' text-anchor='middle' fill='%2300e0a0' font-family='Arial'%3EX%3C/text%3E%3C/svg%3E">
 <meta name="robots" content="index, follow">
 
-<!-- Social Discovery Embeds -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="XCO Speed Test - Lightweight Internet Analysis">
 <meta property="og:description" content="Check your network performance accurately with XCO. Clean, minimal, and fast dashboard powered by Cloudflare network metrics.">
@@ -32,7 +31,7 @@
 
   .logo { font-size:26px; font-weight:800; letter-spacing:-0.8px; margin-bottom:6px; }
   .logo .x { color:var(--accent); }
-  .tagline { font-size:12px; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:30px; }
+  .tagline { font-size:12px; font-weight:400; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:30px; }
 
   .gauge { display:block; width:100%; max-width:460px; margin:0 auto; --arc:var(--accent); overflow:visible; }
   .gauge[data-phase="upload"] { --arc:#5aa9ff; }
@@ -85,7 +84,7 @@
 <body>
 
 <main class="container">
-  <div class="logo" aria-label="XCO"><span class="x">X</span>CO</div>
+  <div class="logo" role="img" aria-label="XCO"><span class="x">X</span>CO</div>
   <h1 class="tagline">Speed Test</h1>
 
   <svg class="gauge" id="gauge" viewBox="0 0 300 260" role="img" aria-label="Speedometer" data-phase="download">
@@ -146,6 +145,7 @@ const CFG = {
 
 const $ = (id) => document.getElementById(id);
 const el = {
+  gauge: $('gauge'), arc: $('gArc'), prog: $('gProg'), ticks: $('gTicks'), needle: $('gNeedle'),
   num: $('speedNumber'), unit: $('speedUnit'), status: $('statusText'),
   more: $('moreInfo'),
   toggle: $('toggleBtn'), retest: $('retestBtn'),
@@ -169,7 +169,237 @@ function formatSpeed(v) {
   if (v > 0)     return [v.toFixed(2), 'Mbps'];
   return ['0', 'Mbps'];
 }
-// Note: Remaining truncated script contents go here intact...
+const speedText = (v) => formatSpeed(v).join(' ');
+const setStatus = (t, err) => { el.status.textContent = t; el.status.classList.toggle('error', !!err); };
+
+/* ---------- Gauge ---------- */
+const SCALE = [0, 5, 10, 25, 50, 100, 250, 500, 1000];   // Mbps, equal angle per segment
+const A0 = -135, SWEEP = 270;
+
+function frac(v) {
+  const n = SCALE.length - 1;
+  if (!(v > 0)) return 0;
+  if (v >= SCALE[n]) return 1;
+  let i = 0;
+  while (v > SCALE[i + 1]) i++;
+  return (i + (v - SCALE[i]) / (SCALE[i + 1] - SCALE[i])) / n;
+}
+
+(function buildTicks() {
+  const NS = 'http://www.w3.org/2000/svg', n = SCALE.length - 1;
+  const pt = (a, r) => [150 + r * Math.sin(a * Math.PI / 180), 150 - r * Math.cos(a * Math.PI / 180)];
+  const add = (f, r1, r2, major) => {
+    const a = A0 + f * SWEEP, [x1, y1] = pt(a, r1), [x2, y2] = pt(a, r2);
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('class', 'g-tick' + (major ? ' major' : ''));
+    l.setAttribute('x1', x1.toFixed(1)); l.setAttribute('y1', y1.toFixed(1));
+    l.setAttribute('x2', x2.toFixed(1)); l.setAttribute('y2', y2.toFixed(1));
+    el.ticks.appendChild(l);
+  };
+  for (let i = 0; i <= n; i++) {
+    add(i / n, 88, 97, true);
+    const [x, y] = pt(A0 + (i / n) * SWEEP, 76);
+    const t = document.createElementNS(NS, 'text');
+    t.setAttribute('class', 'g-label');
+    t.setAttribute('x', x.toFixed(1)); t.setAttribute('y', y.toFixed(1));
+    t.textContent = SCALE[i];
+    el.ticks.appendChild(t);
+    if (i < n) for (let k = 1; k <= 4; k++) add((i + k / 5) / n, 91, 97, false);
+  }
+})();
+
+function setGauge(v) {
+  const f = frac(v), [num, unit] = formatSpeed(v);
+  el.arc.style.opacity = f > 0 ? 1 : 0;
+  el.arc.setAttribute('stroke-dasharray', (f * 100).toFixed(2) + ' 100');
+  el.needle.style.transform = 'rotate(' + (A0 + f * SWEEP).toFixed(1) + 'deg)';
+  el.num.textContent = num;
+  el.unit.textContent = unit;
+}
+function setProgress(p) {
+  el.prog.classList.add('on');
+  el.prog.setAttribute('stroke-dasharray', (Math.min(1, p) * 100).toFixed(1) + ' 100');
+}
+function clearProgress() {
+  el.prog.classList.remove('on');
+  el.prog.setAttribute('stroke-dasharray', '0 100');
+}
+
+/* ---------- Latency ---------- */
+async function measurePing(signal) {
+  const one = async () => {
+    const c = new AbortController();
+    const to = setTimeout(() => c.abort(), CFG.ping.timeoutMs);
+    const onAbort = () => c.abort();
+    signal.addEventListener('abort', onAbort, { once: true });
+    const t = performance.now();
+    try {
+      const r = await fetch(DOWN + '?bytes=0&r=' + rand(), { cache: 'no-store', signal: c.signal });
+      await r.arrayBuffer();
+      return performance.now() - t;
+    } finally { clearTimeout(to); signal.removeEventListener('abort', onAbort); }
+  };
+  try { await one(); } catch (e) { if (signal.aborted) throw e; throw new TestError('Could not reach the test server.'); }
+  const times = [];
+  for (let i = 0; i < CFG.ping.samples; i++) {
+    if (signal.aborted) throw new TestError('Test cancelled.');
+    try { times.push(await one()); } catch (e) { if (signal.aborted) throw e; }
+    setProgress((i + 1) / CFG.ping.samples);
+  }
+  if (times.length < 3) throw new TestError('Latency test failed. Check your connection.');
+  let j = 0;
+  for (let i = 1; i < times.length; i++) j += Math.abs(times[i] - times[i - 1]);
+  return { ping: median(times), jitter: j / (times.length - 1) };
+}
+
+/* ---------- Throughput engine ---------- */
+async function transfer(cfg, worker, signal) {
+  const stop = new AbortController();
+  signal.addEventListener('abort', () => stop.abort(), { once: true });
+  let bytes = 0, wt = null, wb = 0, endT = 0, endB = 0, failed = null;
+  const add = (n) => { bytes += n; };
+  const t0 = performance.now(), samples = [];
+
+  const workers = Array.from({ length: cfg.streams }, () =>
+    worker(add, stop.signal).catch((e) => { if (!stop.signal.aborted) failed = e; }));
+
+  await new Promise((resolve) => {
+    const iv = setInterval(() => {
+      const now = performance.now(), elapsed = now - t0;
+      if (signal.aborted || (failed && bytes === 0)) { clearInterval(iv); return resolve(); }
+      samples.push([now, bytes]);
+      while (samples.length > 1 && now - samples[0][0] > 1000) samples.shift();
+      if (wt === null && elapsed >= cfg.warmMs) { wt = now; wb = bytes; }
+      const [st, sb] = samples[0];
+      if (now > st) setGauge((bytes - sb) * 8 / (now - st) / 1e3);
+      setProgress(elapsed / cfg.totalMs);
+      if (elapsed >= cfg.totalMs) { endT = now; endB = bytes; clearInterval(iv); resolve(); }
+    }, 150);
+  });
+
+  stop.abort();
+  await Promise.allSettled(workers);
+  if (signal.aborted) throw new TestError('Test cancelled.');
+  if (bytes === 0) throw new TestError('Transfer failed. Check your connection.');
+  return wt !== null && endT > wt ? (endB - wb) * 8 / (endT - wt) / 1e3 : 0;
+}
+
+async function dlWorker(add, sig) {
+  while (!sig.aborted) {
+    const r = await fetch(DOWN + '?bytes=' + CFG.download.chunkBytes + '&r=' + rand(), { cache: 'no-store', signal: sig });
+    if (!r.ok) throw new TestError('Download server error.');
+    const rd = r.body.getReader();
+    for (;;) {
+      const { done, value } = await rd.read();
+      if (done) break;
+      add(value.length);
+    }
+  }
+}
+
+let payload = null;
+function getPayload() {
+  if (payload) return payload;
+  const buf = new Uint8Array(CFG.upload.payloadBytes);
+  for (let o = 0; o < buf.length; o += 65536) crypto.getRandomValues(buf.subarray(o, o + 65536));
+  return (payload = new Blob([buf], { type: 'application/octet-stream' }));
+}
+
+function ulWorker(add, sig) {
+  const body = getPayload();
+  return new Promise((resolve, reject) => {
+    const send = () => {
+      if (sig.aborted) return resolve();
+      const x = new XMLHttpRequest();
+      let last = 0;
+      x.open('POST', UP + '?r=' + rand());
+      x.upload.onprogress = (e) => { add(e.loaded - last); last = e.loaded; };
+      x.onload = () => { add(body.size - last); send(); };
+      x.onerror = () => reject(new TestError('Upload failed.'));
+      x.onabort = () => resolve();
+      sig.addEventListener('abort', () => x.abort(), { once: true });
+      x.send(body);
+    };
+    send();
+  });
+}
+
+/* ---------- Network info ---------- */
+async function loadMeta(signal) {
+  try {
+    const r = await fetch(BASE + '/meta', { cache: 'no-store', signal });
+    const m = await r.json();
+    const colo = m.colo || {};
+    el.server.textContent = [colo.city, colo.iata && '(' + colo.iata + ')'].filter(Boolean).join(' ') || 'Cloudflare';
+    el.ip.textContent = m.clientIp || '--';
+    el.isp.textContent = m.asOrganization || '--';
+  } catch (e) { el.server.textContent = 'Cloudflare'; }
+}
+
+/* ---------- Run ---------- */
+function resetUI() {
+  el.up.textContent = el.ping.textContent = el.jitter.textContent = '--';
+  el.server.textContent = el.ip.textContent = el.isp.textContent = '--';
+  el.gauge.dataset.phase = 'download';
+  el.arc.style.opacity = 0;
+  setGauge(0);
+  clearProgress();
+  setStatus('Starting...');
+  el.retest.hidden = true;
+}
+
+async function runTest() {
+  if (testing) return;
+  testing = true; hiddenAbort = false;
+  runCtl = new AbortController();
+  const sig = runCtl.signal;
+  resetUI();
+  try {
+    setStatus('Measuring latency...');
+    loadMeta(sig);
+    const { ping, jitter } = await measurePing(sig);
+    el.ping.innerHTML = ping.toFixed(0) + '<span>ms</span>';
+    el.jitter.innerHTML = jitter.toFixed(1) + '<span>ms</span>';
+    clearProgress();
+
+    setStatus('Testing download speed...');
+    const down = await transfer(CFG.download, dlWorker, sig);
+    setGauge(down);
+    clearProgress();
+
+    el.gauge.dataset.phase = 'upload';
+    setGauge(0);
+    setStatus('Testing upload speed...');
+    const up = await transfer(CFG.upload, ulWorker, sig);
+    el.up.innerHTML = formatSpeed(up).join('<span>') + '</span>';
+
+    el.gauge.dataset.phase = 'download';
+    setGauge(down);
+    setStatus('Download ' + speedText(down) + '  ·  Upload ' + speedText(up));
+  } catch (e) {
+    if (hiddenAbort) setStatus('Test stopped because the tab was hidden. Run it again.', true);
+    else setStatus(e instanceof TestError ? e.message : 'Test failed. Check your connection and try again.', true);
+    setGauge(0);
+  } finally {
+    clearProgress();
+    testing = false;
+    runCtl = null;
+    el.retest.hidden = false;
+  }
+}
+
+/* ---------- Events ---------- */
+el.toggle.addEventListener('click', () => {
+  const open = el.more.classList.toggle('visible');
+  el.toggle.setAttribute('aria-expanded', String(open));
+  el.toggle.textContent = open ? 'Hide info' : 'Show more info';
+});
+el.retest.addEventListener('click', runTest);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && testing && runCtl) { hiddenAbort = true; runCtl.abort(); }
+});
+
+runTest();
 </script>
 </body>
 </html>
