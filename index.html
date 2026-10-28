@@ -3,457 +3,300 @@
 <head>
 <meta name="google-site-verification" content="SzLQtp2wuzXHRKmlMgZizs4T1YNUBEO6-pm1KnIRblQ" />
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="color-scheme" content="dark">
-<meta name="theme-color" content="#000000">
-
-<title>XCO Speed Test | Fast, Accurate & Lightweight Internet Test</title>
-<meta name="description" content="Test your internet connection instantly with XCO Speed Test. Secure, lightweight, ad-free analyzer for download, upload speed, latency ping, and jitter.">
-<link rel="canonical" href="https://puffyksef.github.io/xco/" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23000'/%3E%3Ctext x='16' y='23' font-size='20' font-weight='800' text-anchor='middle' fill='%2300e0a0' font-family='Arial'%3EX%3C/text%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0a0c10">
+<title>XCO Speed Test | Free Internet Speed, Ping, Jitter & Bufferbloat Test</title>
+<meta name="description" content="Free, ad-free XCO Speed Test. Measure download, upload, ping, jitter and latency under load, then see what your connection can handle: 4K, video calls, gaming.">
+<link rel="canonical" href="https://puffyksef.github.io/xco/">
 <meta name="robots" content="index, follow, max-image-preview:large">
 <link rel="preconnect" href="https://speed.cloudflare.com" crossorigin>
-<link rel="dns-prefetch" href="https://speed.cloudflare.com">
-<meta name="keywords" content="XCO speed test, internet speed test, download speed, upload speed, ping test, jitter test">
-
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0c10'/%3E%3Ctext x='16' y='23' font-size='20' font-weight='800' text-anchor='middle' fill='%2322d3a6' font-family='Arial'%3EX%3C/text%3E%3C/svg%3E">
 <meta property="og:type" content="website">
-<meta property="og:title" content="XCO Speed Test - Lightweight Internet Analysis">
-<meta property="og:description" content="Check your network performance accurately with XCO. Clean, minimal, and fast dashboard powered by Cloudflare network metrics.">
-<meta property="og:url" content="https://puffyksef.github.io/xco/">
 <meta property="og:site_name" content="XCO Speed Test">
+<meta property="og:title" content="XCO Speed Test - Speed, Ping, Jitter & Bufferbloat">
+<meta property="og:description" content="Fast, free and ad-free. See what your connection can really handle.">
+<meta property="og:url" content="https://puffyksef.github.io/xco/">
 <meta property="og:image" content="https://puffyksef.github.io/xco/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="XCO Speed Test - Lightweight Internet Analysis">
-<meta name="twitter:description" content="Free, ad-free test for download, upload, ping and jitter.">
-<meta name="twitter:image" content="https://puffyksef.github.io/xco/og.png">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
-{"@type":"WebApplication","name":"XCO Speed Test","url":"https://puffyksef.github.io/xco/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","description":"Free, ad-free internet speed test measuring download speed, upload speed, ping and jitter.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+{"@type":"WebApplication","name":"XCO Speed Test","url":"https://puffyksef.github.io/xco/","applicationCategory":"UtilitiesApplication","operatingSystem":"Any (web browser)","description":"Free, ad-free internet speed test for download, upload, ping, jitter and latency under load.","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
 {"@type":"FAQPage","mainEntity":[
-{"@type":"Question","name":"What does XCO Speed Test measure?","acceptedAnswer":{"@type":"Answer","text":"It measures download speed, upload speed, latency (ping) and jitter using Cloudflare's public speed servers."}},
-{"@type":"Question","name":"What is a good ping and jitter?","acceptedAnswer":{"@type":"Answer","text":"Under 30 ms ping and under 5 ms jitter feels great for gaming and video calls. Under 100 ms is fine for general browsing."}},
-{"@type":"Question","name":"Why does my speed differ from my plan?","acceptedAnswer":{"@type":"Answer","text":"Wi-Fi quality, other devices, distance to the test server and network congestion all affect results. For the most accurate result, use a wired connection and pause other downloads."}}
-]}]}
+{"@type":"Question","name":"What is bufferbloat?","acceptedAnswer":{"@type":"Answer","text":"Bufferbloat is the extra delay your connection adds when it is busy. High bufferbloat causes lag in games and video calls while someone is downloading or streaming."}},
+{"@type":"Question","name":"What is a good ping and jitter?","acceptedAnswer":{"@type":"Answer","text":"Under 30 ms ping and under 5 ms jitter is excellent for gaming and calls. Under 100 ms is fine for browsing."}},
+{"@type":"Question","name":"Why is my speed lower than my plan?","acceptedAnswer":{"@type":"Answer","text":"Wi-Fi quality, other devices, server distance and congestion all matter. Use a wired connection and pause other downloads for the most accurate result."}}]}]}
 </script>
-
 <style>
-  * { margin:0; padding:0; box-sizing:border-box; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-  :root { --accent:#00e0a0; --muted:#8c8c8c; --line:#262626; }
-  html, body { background:#000; }
-  body {
-    color:#fff; min-height:100vh; min-height:100dvh;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:20px;
-  }
-  .container { text-align:center; width:100%; max-width:600px; }
-
-  .logo { font-size:26px; font-weight:800; letter-spacing:-0.8px; margin-bottom:6px; }
-  .logo .x { color:var(--accent); }
-  .tagline { font-size:12px; font-weight:400; color:var(--muted); letter-spacing:2px; text-transform:uppercase; margin-bottom:30px; }
-
-  .gauge { display:block; width:100%; max-width:460px; margin:0 auto; --arc:var(--accent); overflow:visible; }
-  .gauge[data-phase="upload"] { --arc:#5aa9ff; }
-  .g-track { fill:none; stroke:#1c1c1c; stroke-width:14; stroke-linecap:round; }
-  .g-arc { fill:none; stroke:var(--arc); stroke-width:14; stroke-linecap:round; transition:stroke-dasharray .25s ease-out, stroke .3s; }
-  .g-arc { filter:drop-shadow(0 0 5px var(--arc)); }
-  .g-tick { stroke:#6a6a6a; stroke-width:1.2; }
-  .g-tick.major { stroke:#fff; stroke-width:2.5; }
-  .g-label { fill:#e8e8e8; font-size:14px; font-weight:700; text-anchor:middle; dominant-baseline:middle; font-variant-numeric:tabular-nums; }
-  .g-needle {
-    transform-origin:150px 150px; transform-box:view-box; transition:transform .25s ease-out;
-    filter:drop-shadow(0 0 3px var(--arc)) drop-shadow(0 0 9px var(--arc));
-  }
-  .g-needle polygon { fill:var(--arc); }
-  .g-hub { fill:#0b0b0b; stroke:var(--arc); stroke-width:3; filter:drop-shadow(0 0 6px var(--arc)); }
-  .g-cap { fill:var(--arc); }
-  .g-num { font-size:56px; font-weight:700; fill:#fff; text-anchor:middle; letter-spacing:-1.5px; font-variant-numeric:tabular-nums; }
-  .g-unit { font-size:14px; font-weight:500; fill:#b0b0b0; text-anchor:middle; }
-
-  .status { font-size:14px; color:#b0b0b0; margin-top:18px; min-height:20px; letter-spacing:0.2px; }
-  .status.error { color:#ff8a80; }
-
-  .g-prog { fill:none; stroke:#fff; stroke-opacity:.5; stroke-width:3; stroke-linecap:round; opacity:0; transition:stroke-dasharray .15s linear, opacity .5s; }
-  .g-prog.on { opacity:1; }
-
-  .more-info { margin-top:36px; width:100%; border-top:1px solid var(--line); padding-top:22px; display:none; }
-  .more-info.visible { display:grid; grid-template-columns:1fr 1fr; gap:22px; text-align:left; }
-  .info-item { display:flex; flex-direction:column; gap:4px; min-width:0; }
-  .info-label { font-size:12px; color:var(--muted); letter-spacing:0.4px; }
-  .info-value { font-size:20px; font-weight:600; overflow-wrap:anywhere; }
-  .info-value.small { font-size:15px; }
-  .info-value span { font-size:12px; font-weight:400; color:var(--muted); margin-left:3px; }
-
-  .actions { margin-top:32px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-  .btn {
-    background:none; border:1px solid #444; color:#fff; padding:12px 22px; min-height:44px;
-    border-radius:6px; font-size:14px; cursor:pointer; font-weight:500; transition:border-color .2s, background .2s;
-  }
-  .btn:hover { border-color:#888; }
-  .btn-primary { background:#fff; color:#000; border-color:#fff; font-weight:700; }
-  .btn-primary:hover { background:#ddd; border-color:#ddd; }
-  .btn[hidden] { display:none; }
-  .btn:focus-visible { outline:2px solid var(--accent); outline-offset:3px; }
-
-  .footer-note { margin:32px auto 0; font-size:12px; color:#8c8c8c; line-height:1.6; max-width:420px; }
-
-  .about { max-width:520px; margin:44px auto 0; text-align:left; border-top:1px solid var(--line); padding-top:24px; color:#a0a0a0; font-size:13px; line-height:1.7; }
-  .about h2 { font-size:15px; color:#fff; margin-bottom:8px; }
-  .about h2 + p { margin-bottom:22px; }
-  .about details { border-top:1px solid var(--line); padding:12px 0; }
-  .about summary { cursor:pointer; color:#ddd; font-weight:600; }
-  .about details p { margin-top:8px; }
-
-  @media (prefers-reduced-motion: reduce) { * { transition:none !important; } }
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+:root{--bg:#0a0c10;--card:#12151c;--line:#222833;--txt:#f2f5f9;--mut:#8a94a6;--track:#1d222c;--g:#22d3a6;--p:#8b7bff;--a:#ffb84d;--r:#ff6b6b}
+@media(prefers-color-scheme:light){:root{--bg:#f4f6fa;--card:#fff;--line:#e3e7ee;--txt:#0f172a;--mut:#5b6678;--track:#e8ecf2;--g:#0aa884;--p:#6a58f0;--a:#d98a00;--r:#e04646}}
+html,body{background:var(--bg)}
+body{color:var(--txt);min-height:100dvh;padding:20px 16px 48px;display:flex;flex-direction:column;align-items:center}
+.wrap{width:100%;max-width:640px}
+header{display:flex;justify-content:space-between;align-items:center;margin:4px 0 18px}
+.logo{font-size:22px;font-weight:800;letter-spacing:-.6px}.logo b{color:var(--g)}
+h1{font-size:12px;font-weight:500;color:var(--mut);letter-spacing:2px;text-transform:uppercase}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{background:none;border:0;color:var(--mut);padding:7px 12px;font-size:12px;font-weight:600;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--txt);color:var(--bg)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px;margin-bottom:16px}
+.bar{height:3px;background:var(--track);border-radius:3px;overflow:hidden;margin-bottom:14px}
+.bar i{display:block;height:100%;width:0;background:var(--arc,var(--g));transition:width .2s linear}
+.steps{display:flex;justify-content:center;gap:8px;list-style:none;margin-bottom:6px}
+.steps li{font-size:12px;color:var(--mut);padding:5px 12px;border:1px solid var(--line);border-radius:99px}
+.steps li.on{color:var(--txt);border-color:var(--arc)}.steps li.done{color:var(--g);border-color:var(--g)}
+.gauge{display:block;width:100%;max-width:360px;margin:0 auto;--arc:var(--g)}
+.gauge[data-p=up]{--arc:var(--p)}.gauge[data-p=ping]{--arc:var(--a)}
+.trk,.arc{fill:none;stroke-width:14;stroke-linecap:round}.trk{stroke:var(--track)}
+.arc{stroke:var(--arc);transition:stroke-dasharray .25s ease-out;filter:drop-shadow(0 0 6px var(--arc))}
+.num{font-size:60px;font-weight:700;fill:var(--txt);text-anchor:middle;letter-spacing:-2px;font-variant-numeric:tabular-nums}
+.unit,.ph{font-size:14px;fill:var(--mut);text-anchor:middle}.ph{letter-spacing:2px;text-transform:uppercase;font-size:11px}
+canvas{display:block;width:100%;height:64px;margin-top:-26px}
+.status{text-align:center;font-size:14px;color:var(--mut);min-height:20px;margin:8px 0 14px}.status.err{color:var(--r)}
+.row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn{background:none;border:1px solid var(--line);color:var(--txt);padding:12px 22px;min-height:46px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:var(--mut)}.btn:focus-visible,.seg button:focus-visible,summary:focus-visible{outline:2px solid var(--g);outline-offset:2px}
+.go{background:var(--g);border-color:var(--g);color:#04120d;font-size:16px;padding:12px 40px}.go:hover{filter:brightness(1.08);border-color:var(--g)}
+.btn[disabled]{opacity:.55;cursor:default}[hidden]{display:none!important}
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:520px){.grid{grid-template-columns:repeat(3,1fr)}}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat span{display:block;font-size:12px;color:var(--mut);margin-bottom:4px}.stat b{font-size:22px;font-variant-numeric:tabular-nums}
+.stat small,.stat em{font-size:12px;color:var(--mut);font-weight:400;font-style:normal;margin-left:3px}.stat em{display:block;margin:2px 0 0}
+.meta{text-align:center;font-size:12px;color:var(--mut);margin:12px 0 16px;overflow-wrap:anywhere}
+h2{font-size:15px;margin-bottom:12px}
+.uc{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.uc:first-of-type{border-top:0}.uc small{display:block;color:var(--mut);font-size:12px}
+.tag{font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;border:1px solid}
+.t2{color:var(--g)}.t1{color:var(--a)}.t0{color:var(--r)}
+.hist div{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-top:1px solid var(--line);color:var(--mut);font-variant-numeric:tabular-nums}
+.hist div:first-of-type{border-top:0}.hist b{color:var(--txt);font-weight:600}
+.about{font-size:13px;line-height:1.7;color:var(--mut)}.about p{margin-bottom:14px}
+details{border-top:1px solid var(--line);padding:11px 0}summary{cursor:pointer;color:var(--txt);font-weight:600}details p{margin:8px 0 0}
+footer{text-align:center;font-size:12px;color:var(--mut);margin-top:8px;line-height:1.6}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
+<div class="wrap">
+<header>
+  <div><div class="logo"><b>X</b>CO</div><h1>Speed Test</h1></div>
+  <div class="seg" role="group" aria-label="Speed unit"><button id="uMbps" aria-pressed="true">Mbps</button><button id="uMB" aria-pressed="false">MB/s</button></div>
+</header>
 
-<main class="container">
-  <div class="logo" role="img" aria-label="XCO"><span class="x">X</span>CO</div>
-  <h1 class="tagline">Speed Test</h1>
-
-  <svg class="gauge" id="gauge" viewBox="0 0 300 260" role="img" aria-label="Speedometer" data-phase="download">
-    <path class="g-track" d="M 70.8 229.2 A 112 112 0 1 1 229.2 229.2"/>
-    <path class="g-arc" id="gArc" pathLength="100" stroke-dasharray="0 100" style="opacity:0" d="M 70.8 229.2 A 112 112 0 1 1 229.2 229.2"/>
-    <path class="g-prog" id="gProg" pathLength="100" stroke-dasharray="0 100" aria-hidden="true" d="M 79.3 220.7 A 100 100 0 1 1 220.7 220.7"/>
-    <g id="gTicks"></g>
-    <g class="g-needle" id="gNeedle" style="transform:rotate(-135deg)">
-      <polygon points="147.5,172 152.5,172 154,150 150,50 146,150"/>
-    </g>
-    <circle class="g-hub" cx="150" cy="150" r="12"/>
-    <circle class="g-cap" cx="150" cy="150" r="4"/>
-    <text class="g-num" id="speedNumber" x="150" y="214">0</text>
-    <text class="g-unit" id="speedUnit" x="150" y="238">Mbps</text>
+<main>
+<section class="card" aria-label="Speed test">
+  <div class="bar"><i id="bar"></i></div>
+  <ol class="steps"><li id="s-ping">Ping</li><li id="s-down">Download</li><li id="s-up">Upload</li></ol>
+  <svg class="gauge" id="gauge" viewBox="0 0 300 260" role="img" aria-label="Speed gauge" data-p="down">
+    <path class="trk" d="M 70.8 229.2 A 112 112 0 1 1 229.2 229.2"/>
+    <path class="arc" id="arc" pathLength="100" stroke-dasharray="0 100" style="opacity:0" d="M 70.8 229.2 A 112 112 0 1 1 229.2 229.2"/>
+    <text class="ph" id="ph" x="150" y="108">Ready</text>
+    <text class="num" id="num" x="150" y="168">0</text>
+    <text class="unit" id="unit" x="150" y="194">Mbps</text>
   </svg>
-
-  <div class="status" id="statusText" role="status" aria-live="polite">Starting...</div>
-
-  <section class="more-info" id="moreInfo" aria-label="Test details">
-    <div class="info-item"><div class="info-label">Download</div><div class="info-value" id="downVal">--</div></div>
-    <div class="info-item"><div class="info-label">Upload</div><div class="info-value" id="uploadVal">--</div></div>
-    <div class="info-item"><div class="info-label">Latency (ping)</div><div class="info-value" id="pingVal">--</div></div>
-    <div class="info-item"><div class="info-label">Jitter</div><div class="info-value" id="jitterVal">--</div></div>
-    <div class="info-item"><div class="info-label">Test server</div><div class="info-value small" id="serverVal">--</div></div>
-    <div class="info-item"><div class="info-label">IP address</div><div class="info-value small" id="ipVal">--</div></div>
-    <div class="info-item"><div class="info-label">Provider</div><div class="info-value small" id="ispVal">--</div></div>
-  </section>
-
-  <div class="actions">
-    <button class="btn" id="toggleBtn" aria-expanded="false" aria-controls="moreInfo">Show more info</button>
-    <button class="btn" id="copyBtn" hidden>Copy result</button>
-    <button class="btn btn-primary" id="retestBtn" hidden>Test again</button>
+  <canvas id="spark" aria-hidden="true"></canvas>
+  <div class="status" id="status" role="status" aria-live="polite">Press Start to test your connection</div>
+  <div class="row">
+    <button class="btn go" id="go">Start test</button>
+    <button class="btn" id="copy" hidden>Copy result</button>
   </div>
+</section>
 
-  <p class="footer-note">
-    XCO Speed Test measures your download, upload, ping and jitter using Cloudflare's public speed servers.
-    Results are estimates and vary with network conditions, Wi-Fi quality and other devices on your network.
-  </p>
+<section class="grid" id="stats" aria-label="Results">
+  <div class="stat"><span>Download</span><b id="rDown">--</b></div>
+  <div class="stat"><span>Upload</span><b id="rUp">--</b></div>
+  <div class="stat"><span>Ping</span><b id="rPing">--</b></div>
+  <div class="stat"><span>Jitter</span><b id="rJit">--</b></div>
+  <div class="stat"><span>Latency under load</span><b id="rLoad">--</b><em id="rGrade"></em></div>
+  <div class="stat"><span>Test server</span><b id="rSrv" style="font-size:16px">--</b></div>
+</section>
+<p class="meta" id="meta">&nbsp;</p>
 
-  <noscript><p class="footer-note">XCO Speed Test needs JavaScript enabled to measure your connection.</p></noscript>
+<section class="card" id="ucCard" hidden><h2>What can your connection handle?</h2><div id="uc"></div></section>
 
-  <section class="about">
-    <h2>About XCO Speed Test</h2>
-    <p>XCO is a free, ad-free internet speed test. It checks your download speed, upload speed, latency (ping) and jitter in about 20 seconds, with nothing to install and no sign-up.</p>
-    <h2>FAQ</h2>
-    <details><summary>What does XCO Speed Test measure?</summary><p>Download and upload speed in Mbps, latency (ping) in milliseconds, and jitter, which is how much your latency varies. Tests run against Cloudflare's public speed servers.</p></details>
-    <details><summary>What is a good ping and jitter?</summary><p>Under 30 ms ping and under 5 ms jitter feels great for gaming and video calls. Under 100 ms is fine for general browsing.</p></details>
-    <details><summary>Why does my speed differ from my plan?</summary><p>Wi-Fi quality, other devices, distance to the test server and congestion all affect results. For the most accurate reading, use a wired connection and pause other downloads.</p></details>
-  </section>
+<section class="card hist" id="histCard" hidden>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px"><h2 style="margin:0">Recent tests</h2><button class="btn" id="clr" style="min-height:32px;padding:4px 12px;font-size:12px">Clear</button></div>
+  <div id="hist"></div>
+</section>
+
+<noscript><p class="meta">XCO Speed Test needs JavaScript enabled.</p></noscript>
+
+<section class="card about">
+  <h2>About XCO Speed Test</h2>
+  <p>XCO is a free, ad-free internet speed test. In about 25 seconds it measures download and upload speed, ping, jitter and latency under load (bufferbloat), then tells you what your connection can handle. No sign-up, nothing to install, and your history stays on your device.</p>
+  <h2>FAQ</h2>
+  <details><summary>What is bufferbloat?</summary><p>The extra delay your connection adds when it is busy. High bufferbloat causes lag in games and calls while someone downloads or streams.</p></details>
+  <details><summary>What is a good ping and jitter?</summary><p>Under 30 ms ping and under 5 ms jitter is excellent for gaming and calls. Under 100 ms is fine for browsing.</p></details>
+  <details><summary>Why is my speed lower than my plan?</summary><p>Wi-Fi quality, other devices, server distance and congestion all matter. Use a wired connection and pause other downloads for the most accurate result.</p></details>
+</section>
 </main>
+<footer>Powered by Cloudflare's public speed servers. Results are estimates.</footer>
+</div>
 
 <script>
 "use strict";
-/* ============================================================
-   XCO SPEED TEST
-   - Latency: warm-up + 15 samples, median ping, jitter = mean
-     absolute difference between consecutive samples
-   - Download / upload: parallel streams, fixed duration, warm-up
-     excluded, speed = bytes moved in the steady-state window
-   ============================================================ */
+const BASE='https://speed.cloudflare.com',DOWN=BASE+'/__down',UP=BASE+'/__up';
+const CFG={ping:{n:15,to:4000},dl:{streams:6,chunk:25e6,warm:2000,total:10000},ul:{streams:4,size:4<<20,warm:1500,total:8000}};
+const $=id=>document.getElementById(id);
+class TestError extends Error{}
+const rand=()=>Math.random().toString(36).slice(2);
+const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const median=a=>{const s=[...a].sort((x,y)=>x-y),m=s.length>>1;return s.length%2?s[m]:(s[m-1]+s[m])/2};
+let unit='Mbps',busy=false,ctl=null,hiddenAbort=false,pts=[],res={},lastText='';
 
-const BASE = 'https://speed.cloudflare.com';
-const DOWN = BASE + '/__down';
-const UP   = BASE + '/__up';
-
-const CFG = {
-  ping:     { samples: 15, timeoutMs: 4000 },
-  download: { streams: 6, chunkBytes: 25e6, warmMs: 2000, totalMs: 10000 },
-  upload:   { streams: 4, payloadBytes: 4 * 1024 * 1024, warmMs: 1500, totalMs: 8000 }
-};
-
-const $ = (id) => document.getElementById(id);
-const el = {
-  gauge: $('gauge'), arc: $('gArc'), prog: $('gProg'), ticks: $('gTicks'), needle: $('gNeedle'),
-  num: $('speedNumber'), unit: $('speedUnit'), status: $('statusText'),
-  more: $('moreInfo'),
-  toggle: $('toggleBtn'), retest: $('retestBtn'),
-  down: $('downVal'), copy: $('copyBtn'), up: $('uploadVal'), ping: $('pingVal'), jitter: $('jitterVal'),
-  server: $('serverVal'), ip: $('ipVal'), isp: $('ispVal')
-};
-
-let testing = false;
-let runCtl = null;
-let hiddenAbort = false;
-let last = null;
-
-/* ---------- Helpers ---------- */
-class TestError extends Error {}
-const rand = () => Math.random().toString(36).slice(2);
-const median = (a) => { const s = [...a].sort((x, y) => x - y), m = s.length >> 1; return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; };
-
-function formatSpeed(v) {
-  if (v >= 1000) return [(v / 1000).toFixed(2), 'Gbps'];
-  if (v >= 10)   return [String(Math.round(v)), 'Mbps'];
-  if (v >= 0.1)  return [v.toFixed(1), 'Mbps'];
-  if (v > 0)     return [v.toFixed(2), 'Mbps'];
-  return ['0', 'Mbps'];
+/* ---- formatting ---- */
+function fmt(v){
+  if(v==null)return['--',''];
+  if(unit==='MB/s'){v/=8;return[v>=10?String(Math.round(v)):v.toFixed(v>=1?1:2),'MB/s']}
+  if(v>=1000)return[(v/1000).toFixed(2),'Gbps'];
+  return[v>=10?String(Math.round(v)):v.toFixed(v>=0.1?1:2),'Mbps'];
 }
-const speedText = (v) => formatSpeed(v).join(' ');
-const setStatus = (t, err) => { el.status.textContent = t; el.status.classList.toggle('error', !!err); };
+const sp=v=>fmt(v).join(' ');
+const setStatus=(t,e)=>{$('status').textContent=t;$('status').classList.toggle('err',!!e)};
 
-/* ---------- Gauge ---------- */
-const SCALE = [0, 5, 10, 25, 50, 100, 250, 500, 1000];   // Mbps, equal angle per segment
-const A0 = -135, SWEEP = 270;
-
-function frac(v) {
-  const n = SCALE.length - 1;
-  if (!(v > 0)) return 0;
-  if (v >= SCALE[n]) return 1;
-  let i = 0;
-  while (v > SCALE[i + 1]) i++;
-  return (i + (v - SCALE[i]) / (SCALE[i + 1] - SCALE[i])) / n;
+/* ---- gauge ---- */
+const SCALE=[0,5,10,25,50,100,250,500,1000];
+function frac(v){const n=SCALE.length-1;if(!(v>0))return 0;if(v>=SCALE[n])return 1;let i=0;while(v>SCALE[i+1])i++;return(i+(v-SCALE[i])/(SCALE[i+1]-SCALE[i]))/n}
+function setGauge(v){const f=frac(v),[n,u]=fmt(v);$('arc').style.opacity=f>0?1:0;$('arc').setAttribute('stroke-dasharray',(f*100).toFixed(1)+' 100');$('num').textContent=n;$('unit').textContent=u}
+function phase(p,label){$('gauge').dataset.p=p;$('ph').textContent=label;
+  const o=['ping','down','up'],i=o.indexOf(p);o.forEach((k,j)=>$('s-'+k).className=j<i?'done':j===i?'on':'')}
+function drawSpark(){
+  const cv=$('spark'),cx=cv.getContext('2d'),d=devicePixelRatio||1,w=cv.width=cv.clientWidth*d,h=cv.height=cv.clientHeight*d;
+  cx.clearRect(0,0,w,h);if(pts.length<2)return;
+  const mx=Math.max(...pts)*1.15||1,col=getComputedStyle($('gauge')).getPropertyValue('--arc').trim()||'#22d3a6';
+  cx.beginPath();pts.forEach((v,i)=>{const x=i/(pts.length-1)*w,y=h-v/mx*h*.9-2;i?cx.lineTo(x,y):cx.moveTo(x,y)});
+  cx.strokeStyle=col;cx.lineWidth=2*d;cx.lineJoin='round';cx.stroke();
+  cx.lineTo(w,h);cx.lineTo(0,h);cx.closePath();cx.globalAlpha=.15;cx.fillStyle=col;cx.fill();cx.globalAlpha=1;
 }
 
-(function buildTicks() {
-  const NS = 'http://www.w3.org/2000/svg', n = SCALE.length - 1;
-  const pt = (a, r) => [150 + r * Math.sin(a * Math.PI / 180), 150 - r * Math.cos(a * Math.PI / 180)];
-  const add = (f, r1, r2, major) => {
-    const a = A0 + f * SWEEP, [x1, y1] = pt(a, r1), [x2, y2] = pt(a, r2);
-    const l = document.createElementNS(NS, 'line');
-    l.setAttribute('class', 'g-tick' + (major ? ' major' : ''));
-    l.setAttribute('x1', x1.toFixed(1)); l.setAttribute('y1', y1.toFixed(1));
-    l.setAttribute('x2', x2.toFixed(1)); l.setAttribute('y2', y2.toFixed(1));
-    el.ticks.appendChild(l);
-  };
-  for (let i = 0; i <= n; i++) {
-    add(i / n, 88, 97, true);
-    const [x, y] = pt(A0 + (i / n) * SWEEP, 76);
-    const t = document.createElementNS(NS, 'text');
-    t.setAttribute('class', 'g-label');
-    t.setAttribute('x', x.toFixed(1)); t.setAttribute('y', y.toFixed(1));
-    t.textContent = SCALE[i];
-    el.ticks.appendChild(t);
-    if (i < n) for (let k = 1; k <= 4; k++) add((i + k / 5) / n, 91, 97, false);
+/* ---- network ---- */
+async function one(sig){
+  const c=new AbortController(),to=setTimeout(()=>c.abort(),CFG.ping.to),ab=()=>c.abort();
+  sig.addEventListener('abort',ab,{once:true});const t=performance.now();
+  try{const r=await fetch(DOWN+'?bytes=0&r='+rand(),{cache:'no-store',signal:c.signal});await r.arrayBuffer();return performance.now()-t}
+  finally{clearTimeout(to);sig.removeEventListener('abort',ab)}
+}
+async function measurePing(sig){
+  try{await one(sig)}catch(e){if(sig.aborted)throw e;throw new TestError('Could not reach the test server.')}
+  const a=[];
+  for(let i=0;i<CFG.ping.n;i++){
+    if(sig.aborted)throw new TestError('Test cancelled.');
+    try{a.push(await one(sig))}catch(e){if(sig.aborted)throw e}
+    $('bar').style.width=((i+1)/CFG.ping.n*100)+'%';$('num').textContent=a.length?Math.round(median(a)):'0';
   }
-})();
-
-function setGauge(v) {
-  const f = frac(v), [num, unit] = formatSpeed(v);
-  el.arc.style.opacity = f > 0 ? 1 : 0;
-  el.arc.setAttribute('stroke-dasharray', (f * 100).toFixed(2) + ' 100');
-  el.needle.style.transform = 'rotate(' + (A0 + f * SWEEP).toFixed(1) + 'deg)';
-  el.num.textContent = num;
-  el.unit.textContent = unit;
+  if(a.length<3)throw new TestError('Latency test failed. Check your connection.');
+  let j=0;for(let i=1;i<a.length;i++)j+=Math.abs(a[i]-a[i-1]);
+  return{ping:median(a),jitter:j/(a.length-1)};
 }
-function setProgress(p) {
-  el.prog.classList.add('on');
-  el.prog.setAttribute('stroke-dasharray', (Math.min(1, p) * 100).toFixed(1) + ' 100');
+async function loadedPing(sig){
+  const a=[];
+  while(!sig.aborted){try{a.push(await one(sig))}catch(e){break}await sleep(300)}
+  if(a.length>2)res.loaded=median(a);
 }
-function clearProgress() {
-  el.prog.classList.remove('on');
-  el.prog.setAttribute('stroke-dasharray', '0 100');
+async function transfer(c,worker,sig,extra){
+  const stop=new AbortController();sig.addEventListener('abort',()=>stop.abort(),{once:true});
+  let bytes=0,wt=null,wb=0,eT=0,eB=0,fail=null,sm=0;const add=n=>{bytes+=n},t0=performance.now(),win=[];pts=[];
+  const ws=Array.from({length:c.streams},()=>worker(add,stop.signal).catch(e=>{if(!stop.signal.aborted)fail=e}));
+  const ex=extra?extra(stop.signal):Promise.resolve();
+  await new Promise(r=>{const iv=setInterval(()=>{
+    const now=performance.now(),el=now-t0;
+    if(sig.aborted||(fail&&!bytes)){clearInterval(iv);return r()}
+    win.push([now,bytes]);while(win.length>1&&now-win[0][0]>1000)win.shift();
+    if(wt===null&&el>=c.warm){wt=now;wb=bytes}
+    const[st,sb]=win[0];
+    if(now>st){const v=(bytes-sb)*8/(now-st)/1e3;sm=sm?sm*.6+v*.4:v;setGauge(sm);pts.push(sm);drawSpark()}
+    $('bar').style.width=Math.min(100,el/c.total*100)+'%';
+    if(el>=c.total){eT=now;eB=bytes;clearInterval(iv);r()}
+  },150)});
+  stop.abort();await Promise.allSettled([...ws,ex]);
+  if(sig.aborted)throw new TestError('Test cancelled.');
+  if(!bytes)throw new TestError('Transfer failed. Check your connection.');
+  return wt!==null&&eT>wt?(eB-wb)*8/(eT-wt)/1e3:0;
 }
-
-/* ---------- Latency ---------- */
-async function measurePing(signal) {
-  const one = async () => {
-    const c = new AbortController();
-    const to = setTimeout(() => c.abort(), CFG.ping.timeoutMs);
-    const onAbort = () => c.abort();
-    signal.addEventListener('abort', onAbort, { once: true });
-    const t = performance.now();
-    try {
-      const url = DOWN + '?bytes=0&r=' + rand();
-      const r = await fetch(url, { cache: 'no-store', signal: c.signal });
-      await r.arrayBuffer();
-      const wall = performance.now() - t;
-      const e = performance.getEntriesByName(url).pop();
-      performance.clearResourceTimings();
-      return e && e.requestStart > 0 && e.responseStart > e.requestStart ? e.responseStart - e.requestStart : wall;
-    } finally { clearTimeout(to); signal.removeEventListener('abort', onAbort); }
-  };
-  try { await one(); } catch (e) { if (signal.aborted) throw e; throw new TestError('Could not reach the test server.'); }
-  const times = [];
-  for (let i = 0; i < CFG.ping.samples; i++) {
-    if (signal.aborted) throw new TestError('Test cancelled.');
-    try { times.push(await one()); } catch (e) { if (signal.aborted) throw e; }
-    setProgress((i + 1) / CFG.ping.samples);
-  }
-  if (times.length < 3) throw new TestError('Latency test failed. Check your connection.');
-  let j = 0;
-  for (let i = 1; i < times.length; i++) j += Math.abs(times[i] - times[i - 1]);
-  return { ping: median(times), jitter: j / (times.length - 1) };
-}
-
-/* ---------- Throughput engine ---------- */
-async function transfer(cfg, worker, signal) {
-  const stop = new AbortController();
-  signal.addEventListener('abort', () => stop.abort(), { once: true });
-  let smooth = 0;
-  let bytes = 0, wt = null, wb = 0, endT = 0, endB = 0, failed = null;
-  const add = (n) => { bytes += n; };
-  const t0 = performance.now(), samples = [];
-
-  const workers = Array.from({ length: cfg.streams }, () =>
-    worker(add, stop.signal).catch((e) => { if (!stop.signal.aborted) failed = e; }));
-
-  await new Promise((resolve) => {
-    const iv = setInterval(() => {
-      const now = performance.now(), elapsed = now - t0;
-      if (signal.aborted || (failed && bytes === 0)) { clearInterval(iv); return resolve(); }
-      samples.push([now, bytes]);
-      while (samples.length > 1 && now - samples[0][0] > 1000) samples.shift();
-      if (wt === null && elapsed >= cfg.warmMs) { wt = now; wb = bytes; }
-      const [st, sb] = samples[0];
-      if (now > st) { const v = (bytes - sb) * 8 / (now - st) / 1e3; smooth = smooth ? smooth * 0.6 + v * 0.4 : v; setGauge(smooth); }
-      setProgress(elapsed / cfg.totalMs);
-      if (elapsed >= cfg.totalMs) { endT = now; endB = bytes; clearInterval(iv); resolve(); }
-    }, 150);
-  });
-
-  stop.abort();
-  await Promise.allSettled(workers);
-  if (signal.aborted) throw new TestError('Test cancelled.');
-  if (bytes === 0) throw new TestError('Transfer failed. Check your connection.');
-  return wt !== null && endT > wt ? (endB - wb) * 8 / (endT - wt) / 1e3 : 0;
-}
-
-async function dlWorker(add, sig) {
-  while (!sig.aborted) {
-    const r = await fetch(DOWN + '?bytes=' + CFG.download.chunkBytes + '&r=' + rand(), { cache: 'no-store', signal: sig });
-    if (!r.ok) throw new TestError('Download server error.');
-    const rd = r.body.getReader();
-    for (;;) {
-      const { done, value } = await rd.read();
-      if (done) break;
-      add(value.length);
-    }
+async function dlWorker(add,sig){
+  while(!sig.aborted){
+    const r=await fetch(DOWN+'?bytes='+CFG.dl.chunk+'&r='+rand(),{cache:'no-store',signal:sig});
+    if(!r.ok)throw new TestError('Download server error.');
+    const rd=r.body.getReader();for(;;){const{done,value}=await rd.read();if(done)break;add(value.length)}
   }
 }
-
-let payload = null;
-function getPayload() {
-  if (payload) return payload;
-  const buf = new Uint8Array(CFG.upload.payloadBytes);
-  for (let o = 0; o < buf.length; o += 65536) crypto.getRandomValues(buf.subarray(o, o + 65536));
-  return (payload = new Blob([buf], { type: 'application/octet-stream' }));
+let blob=null;
+function payload(){if(blob)return blob;const b=new Uint8Array(CFG.ul.size);for(let o=0;o<b.length;o+=65536)crypto.getRandomValues(b.subarray(o,o+65536));return(blob=new Blob([b]))}
+function ulWorker(add,sig){
+  const body=payload();
+  return new Promise((res,rej)=>{const send=()=>{
+    if(sig.aborted)return res();
+    const x=new XMLHttpRequest();let last=0;x.open('POST',UP+'?r='+rand());
+    x.upload.onprogress=e=>{add(e.loaded-last);last=e.loaded};
+    x.onload=()=>{add(body.size-last);send()};x.onerror=()=>rej(new TestError('Upload failed.'));x.onabort=()=>res();
+    sig.addEventListener('abort',()=>x.abort(),{once:true});x.send(body)};send()});
+}
+async function loadMeta(sig){
+  try{const m=await(await fetch(BASE+'/meta',{cache:'no-store',signal:sig})).json(),c=m.colo||{};
+    $('rSrv').textContent=[c.city,c.iata&&'('+c.iata+')'].filter(Boolean).join(' ')||'Cloudflare';
+    $('meta').textContent=[m.asOrganization,m.clientIp].filter(Boolean).join(' · ')||'\u00a0';
+  }catch(e){$('rSrv').textContent='Cloudflare'}
 }
 
-function ulWorker(add, sig) {
-  const body = getPayload();
-  return new Promise((resolve, reject) => {
-    const send = () => {
-      if (sig.aborted) return resolve();
-      const x = new XMLHttpRequest();
-      let last = 0;
-      x.open('POST', UP + '?r=' + rand());
-      x.upload.onprogress = (e) => { add(e.loaded - last); last = e.loaded; };
-      x.onload = () => { add(body.size - last); send(); };
-      x.onerror = () => reject(new TestError('Upload failed.'));
-      x.onabort = () => resolve();
-      sig.addEventListener('abort', () => x.abort(), { once: true });
-      x.send(body);
-    };
-    send();
-  });
+/* ---- render ---- */
+const UC=[
+ ['4K streaming','Needs about 25 Mbps down',r=>r.down>=40?2:r.down>=25?1:0],
+ ['Video calls','10 Mbps down, 5 up, low ping',r=>(r.down>=10&&r.up>=5&&r.ping<80)?2:(r.down>=3&&r.up>=1.5)?1:0],
+ ['Online gaming','Low ping, jitter and bufferbloat',r=>(r.ping<40&&r.jitter<10&&(r.loaded==null||r.loaded<120))?2:(r.ping<80&&r.jitter<25)?1:0],
+ ['Cloud backups & uploads','Upload speed of 10+ Mbps',r=>r.up>=50?2:r.up>=10?1:0]];
+function render(){
+  const s=(id,v)=>{const[n,u]=fmt(v);$(id).innerHTML=n+(u?'<small>'+u+'</small>':'')};
+  const m=(id,v,d)=>{$(id).innerHTML=v==null?'--':v.toFixed(d)+'<small>ms</small>'};
+  s('rDown',res.down);s('rUp',res.up);m('rPing',res.ping,0);m('rJit',res.jitter,1);m('rLoad',res.loaded,0);
+  if(res.loaded!=null&&res.ping!=null){const i=Math.max(0,res.loaded-res.ping);$('rGrade').textContent='Bufferbloat grade '+(i<30?'A':i<60?'B':i<150?'C':'D')}else $('rGrade').textContent='';
+  const ok=res.up!=null;$('ucCard').hidden=!ok;
+  if(ok)$('uc').innerHTML=UC.map(([n,d,f])=>{const k=f(res);return'<div class="uc"><div>'+n+'<small>'+d+'</small></div><span class="tag t'+k+'">'+['Poor','OK','Great'][k]+'</span></div>'}).join('');
+}
+function history(add){
+  let h=[];try{h=JSON.parse(localStorage.getItem('xco-h')||'[]')}catch(e){}
+  if(add){h.unshift(add);h=h.slice(0,8);try{localStorage.setItem('xco-h',JSON.stringify(h))}catch(e){}}
+  $('histCard').hidden=!h.length;
+  $('hist').innerHTML=h.map(x=>'<div><span>'+new Date(x.t).toLocaleString([],{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'})+'</span><span><b>↓ '+sp(x.d)+'</b> &nbsp;↑ '+sp(x.u)+' &nbsp;'+Math.round(x.p)+' ms</span></div>').join('');
 }
 
-/* ---------- Network info ---------- */
-async function loadMeta(signal) {
-  try {
-    const r = await fetch(BASE + '/meta', { cache: 'no-store', signal });
-    const m = await r.json();
-    const colo = m.colo || {};
-    el.server.textContent = [colo.city, colo.iata && '(' + colo.iata + ')'].filter(Boolean).join(' ') || 'Cloudflare';
-    el.ip.textContent = m.clientIp || '--';
-    el.isp.textContent = m.asOrganization || '--';
-  } catch (e) { el.server.textContent = 'Cloudflare'; }
+/* ---- run ---- */
+async function run(){
+  if(busy)return;
+  if(!navigator.onLine){setStatus('You appear to be offline. Reconnect and try again.',true);return}
+  busy=true;hiddenAbort=false;ctl=new AbortController();const sig=ctl.signal;res={};
+  $('go').disabled=true;$('go').textContent='Testing...';$('copy').hidden=true;$('meta').innerHTML='&nbsp;';$('rSrv').textContent='--';
+  render();setGauge(0);pts=[];drawSpark();$('bar').style.width='0';
+  try{
+    phase('ping','Latency');setStatus('Measuring latency...');$('unit').textContent='ms';loadMeta(sig);
+    const p=await measurePing(sig);res.ping=p.ping;res.jitter=p.jitter;render();
+    phase('down','Download');setStatus('Testing download speed...');setGauge(0);
+    res.down=await transfer(CFG.dl,dlWorker,sig,loadedPing);setGauge(res.down);render();
+    phase('up','Upload');setStatus('Testing upload speed...');setGauge(0);
+    res.up=await transfer(CFG.ul,ulWorker,sig);
+    phase('done','Result');$('gauge').dataset.p='down';$('s-up').className='done';setGauge(res.down);render();$('bar').style.width='100%';
+    lastText='XCO Speed Test: Download '+sp(res.down)+' | Upload '+sp(res.up)+' | Ping '+res.ping.toFixed(0)+' ms | Jitter '+res.jitter.toFixed(1)+' ms - https://puffyksef.github.io/xco/';
+    setStatus('Download '+sp(res.down)+'  ·  Upload '+sp(res.up));$('copy').hidden=false;
+    history({t:Date.now(),d:res.down,u:res.up,p:res.ping});
+  }catch(e){
+    setStatus(hiddenAbort?'Test stopped because the tab was hidden. Run it again.':e instanceof TestError?e.message:'Test failed. Check your connection and try again.',true);
+    setGauge(0);phase('x','Stopped');
+  }finally{busy=false;ctl=null;$('go').disabled=false;$('go').textContent='Test again'}
 }
 
-/* ---------- Run ---------- */
-function resetUI() {
-  el.copy.hidden = true;
-  el.down.textContent = el.up.textContent = el.ping.textContent = el.jitter.textContent = '--';
-  el.server.textContent = el.ip.textContent = el.isp.textContent = '--';
-  el.gauge.dataset.phase = 'download';
-  el.arc.style.opacity = 0;
-  setGauge(0);
-  clearProgress();
-  setStatus('Starting...');
-  el.retest.hidden = true;
-}
-
-async function runTest() {
-  if (testing) return;
-  if (!navigator.onLine) { setStatus('You appear to be offline. Reconnect and try again.', true); el.retest.hidden = false; return; }
-  testing = true; hiddenAbort = false;
-  runCtl = new AbortController();
-  const sig = runCtl.signal;
-  resetUI();
-  try {
-    setStatus('Measuring latency...');
-    loadMeta(sig);
-    const { ping, jitter } = await measurePing(sig);
-    el.ping.innerHTML = ping.toFixed(0) + '<span>ms</span>';
-    el.jitter.innerHTML = jitter.toFixed(1) + '<span>ms</span>';
-    clearProgress();
-
-    setStatus('Testing download speed...');
-    const down = await transfer(CFG.download, dlWorker, sig);
-    setGauge(down);
-    el.down.innerHTML = formatSpeed(down).join('<span>') + '</span>';
-    clearProgress();
-
-    el.gauge.dataset.phase = 'upload';
-    setGauge(0);
-    setStatus('Testing upload speed...');
-    const up = await transfer(CFG.upload, ulWorker, sig);
-    el.up.innerHTML = formatSpeed(up).join('<span>') + '</span>';
-
-    el.gauge.dataset.phase = 'download';
-    setGauge(down);
-    last = 'XCO Speed Test: Download ' + speedText(down) + ' | Upload ' + speedText(up) + ' | Ping ' + ping.toFixed(0) + ' ms | Jitter ' + jitter.toFixed(1) + ' ms - https://puffyksef.github.io/xco/';
-    el.copy.hidden = false;
-    setStatus('Download ' + speedText(down) + '  ·  Upload ' + speedText(up));
-  } catch (e) {
-    if (hiddenAbort) setStatus('Test stopped because the tab was hidden. Run it again.', true);
-    else setStatus(e instanceof TestError ? e.message : 'Test failed. Check your connection and try again.', true);
-    setGauge(0);
-  } finally {
-    clearProgress();
-    testing = false;
-    runCtl = null;
-    el.retest.hidden = false;
-  }
-}
-
-/* ---------- Events ---------- */
-el.toggle.addEventListener('click', () => {
-  const open = el.more.classList.toggle('visible');
-  el.toggle.setAttribute('aria-expanded', String(open));
-  el.toggle.textContent = open ? 'Hide info' : 'Show more info';
-});
-el.retest.addEventListener('click', runTest);
-el.copy.addEventListener('click', async () => {
-  try { await navigator.clipboard.writeText(last); el.copy.textContent = 'Copied!'; }
-  catch (e) { el.copy.textContent = 'Copy failed'; }
-  setTimeout(() => { el.copy.textContent = 'Copy result'; }, 1500);
-});
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden && testing && runCtl) { hiddenAbort = true; runCtl.abort(); }
-});
-
-runTest();
+/* ---- events ---- */
+$('go').onclick=run;
+$('copy').onclick=async()=>{try{await navigator.clipboard.writeText(lastText);$('copy').textContent='Copied!'}catch(e){$('copy').textContent='Copy failed'}setTimeout(()=>$('copy').textContent='Copy result',1500)};
+$('clr').onclick=()=>{try{localStorage.removeItem('xco-h')}catch(e){}history()};
+function setUnit(u){unit=u;$('uMbps').setAttribute('aria-pressed',u==='Mbps');$('uMB').setAttribute('aria-pressed',u==='MB/s');
+  try{localStorage.setItem('xco-u',u)}catch(e){}if(!busy){setGauge(res.down||0);render();history()}}
+$('uMbps').onclick=()=>setUnit('Mbps');$('uMB').onclick=()=>setUnit('MB/s');
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&busy&&ctl){hiddenAbort=true;ctl.abort()}});
+document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&!e.target.closest('button,summary,a')){e.preventDefault();run()}});
+addEventListener('resize',()=>{if(!busy)drawSpark()});
+try{const u=localStorage.getItem('xco-u');if(u==='MB/s')setUnit(u)}catch(e){}
+history();
 </script>
 </body>
 </html>
